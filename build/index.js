@@ -4,10 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const body_parser_1 = __importDefault(require("body-parser"));
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/notaDB', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch((err) => console.log(err));
 const express = require('express');
 const app = express();
 app.use(body_parser_1.default.json());
@@ -23,5 +19,5 @@ app.use(rutaGetById);
 const rutaUpdate = require('./rutes/nota/ruta.update');
 app.use(rutaUpdate);
 app.listen(3000, () => {
-    console.log("Servidor corriendo en http://localhost:3000");
+    console.log("Servidor corriendo en el puerto 3000");
 });

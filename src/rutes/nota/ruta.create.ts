@@ -1,8 +1,8 @@
 const expressC = require('express');
 const routerCreate = expressC.Router();
 
-const controllerCreate = require('../../controllers/nota/controller.create')
+const controllerNoteC = require('../../controllers/nota/controller.note')
 
-routerCreate.post('/create', controllerCreate.create)
+routerCreate.post('/create',controllerNoteC.create)
 
 module.exports = routerCreate;

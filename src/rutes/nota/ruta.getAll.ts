@@ -1,8 +1,9 @@
 const expressG = require('express');
 const routerGetAll = expressG.Router();
 
-routerGetAll.get('/getAll', (req: any, res: any) => {
-    res.send("HOLA")
-});
+const controllerNoteGAll = require('../../controllers/nota/controller.note')
+
+routerGetAll.get('/getAll', controllerNoteGAll.getAll)
+
 
 module.exports = routerGetAll;

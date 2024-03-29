@@ -1,6 +1,6 @@
 "use strict";
 const expressC = require('express');
 const routerCreate = expressC.Router();
-const controllerCreate = require('../../controllers/nota/controller.create');
-routerCreate.post('/create', controllerCreate.create);
+const controllerNote = require('../../controllers/nota/controller.note');
+routerCreate.post('/create', controllerNote.create);
 module.exports = routerCreate;

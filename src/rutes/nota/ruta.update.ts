@@ -1,8 +1,8 @@
 const expressU = require('express');
 const routerUpdate = expressU.Router();
 
-routerUpdate.post('/update', (req: any, res: any) => {
-    
-});
+const controllerNoteU = require('../../controllers/nota/controller.note')
+
+routerUpdate.post('/update', controllerNoteU.update)
 
 module.exports = routerUpdate;

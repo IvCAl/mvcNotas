@@ -1,8 +1,8 @@
 const expressGID = require('express');
 const routerGetById = expressGID.Router();
 
-routerGetById.get('/getById', (req: any, res: any) => {
-    
-});
+const controllerNoteGId = require('../../controllers/nota/controller.note')
+
+routerGetById.post('/getById', controllerNoteGId.getById)
 
 module.exports = routerGetById;
