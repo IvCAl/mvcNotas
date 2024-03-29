@@ -70,3 +70,10 @@ export function deleteNota(nota:Tnote){
     nota.delete=true
     updateFecha(nota)
 }
+
+export function haveThisId(nota:Tnote, id: string): boolean {
+    if (nota.id == id)
+        return true
+    else
+        return false
+}
