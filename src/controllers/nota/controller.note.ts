@@ -6,7 +6,6 @@ const controllerNote:any={}
 
 controllerNote.getAll=function(req:any,res:any){
     
-    
     res.send(getAll(notas))
     console.log("-----------------------------------------------------------")
 }
@@ -31,7 +30,6 @@ controllerNote.create=function(req:any,res:any){
     addNota(notas,Nota)
     
     console.log("-----------------------------------------------------------")
-    res.send(notas)
 }
 
 controllerNote.delete=function(req:any,res:any){
@@ -41,8 +39,6 @@ controllerNote.delete=function(req:any,res:any){
     }
     deleteNota(notas,notaAux.id);
     
-
-    res.send(notas)
     console.log("-----------------------------------------------------------")
 }
 controllerNote.update=function(req:any,res:any){
@@ -58,7 +54,6 @@ controllerNote.update=function(req:any,res:any){
         if(notaAux.detalles.resolve)
             changeResolve(notas,notaAux.id,notaAux.detalles.resolve);
     }
-    res.send(notas)
     console.log("-----------------------------------------------------------")
 }
 
