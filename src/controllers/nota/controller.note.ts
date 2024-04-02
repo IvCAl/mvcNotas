@@ -1,4 +1,4 @@
-import { addNota, changeDescripcion, changeNombre, changeResolve, createNota, deleteNota, getAll, getById } from "../../functions/Fnote";
+import { changeDescripcion, changeNombre, changeResolve, createNota, deleteNota, getAll, getById } from "../../functions/Fnote";
 import { notas } from "../../functions/Fnote";
 
 
@@ -26,9 +26,9 @@ controllerNote.create=function(req:any,res:any){
     if(!notaAux || !notaAux.id||!notaAux.detalles.nombre||!notaAux.detalles.descripcion){
         return res.status(400).json({msg:"Missing fields"});
     }
-    let Nota=createNota(notaAux.id,notaAux.detalles.nombre,notaAux.detalles.descripcion)
-    addNota(notas,Nota)
-    
+    createNota(notaAux.id,notaAux.detalles.nombre,notaAux.detalles.descripcion)
+   
+    res.send("NOTA CREADA")
     console.log("-----------------------------------------------------------")
 }
 
@@ -38,7 +38,7 @@ controllerNote.delete=function(req:any,res:any){
         return res.status(400).json({msg:"Missing fields"});
     }
     deleteNota(notas,notaAux.id);
-    
+    res.send("NOTA ELIMINADA")
     console.log("-----------------------------------------------------------")
 }
 controllerNote.update=function(req:any,res:any){
@@ -54,6 +54,8 @@ controllerNote.update=function(req:any,res:any){
         if(notaAux.detalles.resolve)
             changeResolve(notas,notaAux.id,notaAux.detalles.resolve);
     }
+
+    res.send("NOTA ACTUALIZADA")
     console.log("-----------------------------------------------------------")
 }
 

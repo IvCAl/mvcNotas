@@ -49,22 +49,42 @@ function haveThisId(nota:Tnota, id: string): boolean {
 else
 return false
 }
-
-//CREAR NOTA
-export function createNota(idd:string,nombre:string,descripcion:string):Tnota{
+function isIdInArray(notas:Tnota[],id:string):boolean{
     try {
-        let fecha=createDate()
-        let detalles=createDetalle(nombre,descripcion)
-        let id=parseString(idd)
-        const nota:Tnota={id,detalles,fecha,delete:false}
-        console.log("Nota Creada")
-        return nota
+        for (let i in notas){
+            if (haveThisId(notas[i],id)){
+                return true
+            }
+        }
+        return false
     } catch (error) {
-        throw error
+        throw "ARRAY VACIO"
     }
 }
-export function addNota(notas:Tnota[], nota: Tnota) {
-    notas.push(nota)
+
+//CREAR NOTA
+export function createNota(idd:string,nombre:string,descripcion:string){
+    if (!idd || typeof idd != 'string' )
+        throw ('No se ha proporcionado el ID de la nota o este no es una cadena de texto');
+    else{
+        let id=parseString(idd)
+        id =id.replace(/\s/g, "");
+        if (id!=""){
+            if (!isIdInArray(notas,id)){
+                let fecha=createDate()
+                let detalles=createDetalle(nombre,descripcion)
+                
+                const nota:Tnota={id,detalles,fecha,delete:false}
+                console.log("Nota Creada")
+                notas.push(nota)
+            }
+            else
+                throw ("ID YA EN USO")
+        }
+        else
+            throw ('No se admite ID vacia')
+    }
+        
 }
 
 //CAMBIAR RESOLVE
