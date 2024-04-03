@@ -1,62 +1,59 @@
-import { changeDescripcion, changeNombre, changeResolve, createNota, deleteNota, getAll, getById } from "../../functions/Fnote";
-import { notas } from "../../functions/Fnote";
+import { updateNota, createNota, deleteNota, getAll, getById } from "../../functions/Fnote";
+import { Request, Response } from "express";
 
 
-const controllerNote:any={}
-
-controllerNote.getAll=function(req:any,res:any){
+export const controllerNote={
     
-    res.send(getAll(notas))
-    console.log("-----------------------------------------------------------")
-}
-
-controllerNote.getById=function(req:any,res:any){
-    let notaAux = req.body;
-    if(!notaAux || !notaAux.id){
-        return res.status(400).json({msg:"Missing fields"});
-    }
-    let Nota=getById(notas,notaAux.id)
+    getAll:function(req:Request,res:Response){
+        const resultado=getAll()
+        return res.json(resultado)
+        console.log("-----------------------------------------------------------")
+    },
     
-    console.log("-----------------------------------------------------------")
-    res.send(Nota)
-}
+    getById:function(req:Request,res:Response){
+        let fields = req.body
+        if(!fields || !fields.id){
+            return res.status(400).json({msg:"Missing fields"});
+        }
+        const resultado=getById(fields.id)
+        
+        console.log("-----------------------------------------------------------")
+        res.json(resultado)
+    },
+    
+    create:function(req:Request,res:Response){
+        const fields = req.body
 
-controllerNote.create=function(req:any,res:any){
-    let notaAux = req.body;
-    if(!notaAux || !notaAux.id||!notaAux.detalles.nombre||!notaAux.detalles.descripcion){
-        return res.status(400).json({msg:"Missing fields"});
-    }
-    createNota(notaAux.id,notaAux.detalles.nombre,notaAux.detalles.descripcion)
-   
-    res.send("NOTA CREADA")
-    console.log("-----------------------------------------------------------")
-}
+        if(!fields || !fields.id||!fields.nombre||!fields.descripcion){
+            return res.status(400).json({msg:"Missing fields"});
+        }
+        createNota(fields.id,fields.nombre,fields.descripcion)
+       
+        res.send("NOTA CREADA")
+        console.log("-----------------------------------------------------------")
+    },
+    
+    delete:function(req:Request,res:Response){
+        let fields = req.body
 
-controllerNote.delete=function(req:any,res:any){
-    let notaAux = req.body;
-    if(!notaAux || !notaAux.id){
-        return res.status(400).json({msg:"Missing fields"});
-    }
-    deleteNota(notas,notaAux.id);
-    res.send("NOTA ELIMINADA")
-    console.log("-----------------------------------------------------------")
-}
-controllerNote.update=function(req:any,res:any){
-    let notaAux = req.body;
-    if((!notaAux||!notaAux.id) && (!notaAux.detalles.nombre ||!notaAux.detalles.descripcion||!notaAux.detalles.resolve)){
-        return res.status(400).json({msg:"Missing fields"});
-    }
-    else{
-        if(notaAux.detalles.nombre)
-            changeNombre(notas,notaAux.id,notaAux.detalles.nombre);
-        if(notaAux.detalles.descripcion)
-            changeDescripcion(notas,notaAux.id,notaAux.detalles.descripcion);
-        if(notaAux.detalles.resolve)
-            changeResolve(notas,notaAux.id,notaAux.detalles.resolve);
-    }
+        if(!fields || !fields.id){
+            return res.status(400).json({msg:"Missing fields"});
+        }
+        deleteNota(fields.id);
+        res.send("NOTA ELIMINADA")
+        console.log("-----------------------------------------------------------")
+    },
+    update:function(req:Request,res:Response){
+        let fields = req.body
 
-    res.send("NOTA ACTUALIZADA")
-    console.log("-----------------------------------------------------------")
+        if((!fields||!fields.id) && (!fields.nombre ||!fields.descripcion||!fields.resolve)){
+            return res.status(400).json({msg:"Missing fields"});
+        }
+        else{
+            updateNota(fields.id,fields.nombre,fields.descripcion,fields.resolve)
+        }
+    
+        res.send("NOTA ACTUALIZADA")
+        console.log("-----------------------------------------------------------")
+    }
 }
-
-module.exports=controllerNote; 
