@@ -4,20 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const body_parser_1 = __importDefault(require("body-parser"));
-const express = require('express');
-const app = express();
+const express_1 = __importDefault(require("express"));
+const ruta_nota_1 = __importDefault(require("./rutes/nota/ruta.nota"));
+const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
-//Rutas
-const rutaCreate = require('./rutes/nota/ruta.create');
-app.use(rutaCreate);
-const rutaDelete = require('./rutes/nota/ruta.delete');
-app.use(rutaDelete);
-const rutaGetAll = require('./rutes/nota/ruta.getAll');
-app.use(rutaGetAll);
-const rutaGetById = require('./rutes/nota/ruta.getById');
-app.use(rutaGetById);
-const rutaUpdate = require('./rutes/nota/ruta.update');
-app.use(rutaUpdate);
+app.use(ruta_nota_1.default);
 app.listen(3000, () => {
     console.log("Servidor corriendo en el puerto 3000");
 });

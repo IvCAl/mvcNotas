@@ -1,4 +1,4 @@
-import { updateNota, createNota, deleteNota, getAll, getById } from "../../functions/Fnote";
+import { updateNota, createNota, deleteNota, getAll, getById, createNotaDB } from "../../functions/Fnote";
 import { Request, Response } from "express";
 
 
@@ -24,14 +24,23 @@ export const controllerNote={
     create:function(req:Request,res:Response){
         const fields = req.body
 
-        if(!fields || !fields.id||!fields.nombre||!fields.descripcion){
+        if(!fields ||!fields.nombre||!fields.descripcion){
             return res.status(400).json({msg:"Missing fields"});
         }
-        createNota(fields.id,fields.nombre,fields.descripcion)
-       
-        res.send("NOTA CREADA")
+        createNotaDB(fields._id,fields.nombre,fields.descripcion)
         console.log("-----------------------------------------------------------")
     },
+    //create:function(req:Request,res:Response){
+    //    const fields = req.body
+//
+    //    if(!fields || !fields.id||!fields.nombre||!fields.descripcion){
+    //        return res.status(400).json({msg:"Missing fields"});
+    //    }
+    //    createNota(fields.id,fields.nombre,fields.descripcion)
+    //   
+    //    res.send("NOTA CREADA")
+    //    console.log("-----------------------------------------------------------")
+    //},
     
     delete:function(req:Request,res:Response){
         let fields = req.body

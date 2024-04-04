@@ -1,4 +1,5 @@
 import { FechaNota,Detalle,Tnota } from "../types/Tnote"
+import notaModel, { conectar, desconectar } from "../database/mongo";
 
 const notas:Tnota[]=[]
 
@@ -8,6 +9,28 @@ const notaVacia:Tnota={
     fecha:createDate(),
     delete:false
 }
+
+export function createNotaDB(id:string,nombre:string,descripcion:string){
+    
+    conectar()
+    id=parseString(id)
+    id =id.replace(/\s/g, "");
+    if (id!=""){
+        let nuevaNota=new notaModel({
+            _id:id,
+            detalles:createDetalle(nombre, descripcion),
+            fecha:createDate(),
+            delete:false
+        })
+        nuevaNota.save()
+        .then(result =>{
+            console.log(result)
+        })
+        .catch((err)=>{console.error(err)}) 
+    }
+    desconectar()
+}
+
 
 //CREAR NOTA
 export function createNota(idd:string,nombre:string,descripcion:string){
@@ -142,13 +165,13 @@ function parseBoolean(bool:any){
     return bool as boolean
 }
 
-function createDate(): FechaNota{
+export function createDate(): FechaNota{
     let  fechaCreate:Date =new Date(Date.now())
     let fechaUpdate:Date= new Date(Date.now())
     let fecha:FechaNota= {fechaCreate,fechaUpdate}
     return fecha
 }
-function createDetalle(nombre:string,descripcion:string):Detalle {
+export function createDetalle(nombre:string,descripcion:string):Detalle {
     nombre=parseString(nombre)
     descripcion=parseString(descripcion)
     let resolve=false

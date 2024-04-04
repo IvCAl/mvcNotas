@@ -1,3 +1,5 @@
+import { Schema } from "mongoose"
+
 export type FechaNota={
     fechaCreate: Date
     fechaUpdate: Date
