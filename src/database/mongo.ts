@@ -1,19 +1,16 @@
 import Mongoose,{ Schema,model } from "mongoose";
 import {Tnota} from "../types/Tnote";
-import { createDate, createNota } from "../functions/Fnote";
 
 const connectionString="mongodb+srv://shaggy:1234@prueba.ugikfwh.mongodb.net/notas?retryWrites=true&w=majority&appName=Pruebaa"
 
-export function conectar(){
-    
-    Mongoose.connect(connectionString)
-    .then(() => {
-        console.log("Connected to MongoDB")
-    })
-    .catch((err) => {
-        console.error(`Could not connect to MongoDB: ${err}`)
-    });
-}
+Mongoose.connect(connectionString)
+.then(() => {
+    console.log("Connected to MongoDB")
+})
+.catch((err) => {
+    console.error(`Could not connect to MongoDB: ${err}`)
+});
+
 export function desconectar(){
     Mongoose.connection.close()
     .then(()=>{

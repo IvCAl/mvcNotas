@@ -1,5 +1,5 @@
 import { FechaNota,Detalle,Tnota } from "../types/Tnote"
-import notaModel, { conectar, desconectar } from "../database/mongo";
+import notaModel, { desconectar } from "../database/mongo";
 
 const notas:Tnota[]=[]
 
@@ -11,8 +11,6 @@ const notaVacia:Tnota={
 }
 
 export function createNotaDB(id:string,nombre:string,descripcion:string){
-    
-    conectar()
     id=parseString(id)
     id =id.replace(/\s/g, "");
     if (id!=""){
@@ -22,13 +20,15 @@ export function createNotaDB(id:string,nombre:string,descripcion:string){
             fecha:createDate(),
             delete:false
         })
-        nuevaNota.save()
-        .then(result =>{
-            console.log(result)
-        })
-        .catch((err)=>{console.error(err)}) 
+        
+        return nuevaNota.save()
+        .then(()=>console.log(`Se ha creado la nota con el ID ${nuevaNota._id}`))
+        .catch((error)=> console.log('Error al guardar en BD', error));
     }
-    desconectar()
+    else{
+        throw ("NO SE ADMITE ID VACIA")
+    }  
+    //desconectar()
 }
 
 

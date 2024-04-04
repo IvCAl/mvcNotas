@@ -27,7 +27,8 @@ export const controllerNote={
         if(!fields ||!fields.nombre||!fields.descripcion){
             return res.status(400).json({msg:"Missing fields"});
         }
-        createNotaDB(fields._id,fields.nombre,fields.descripcion)
+        const resultado=createNotaDB(fields._id,fields.nombre,fields.descripcion)
+        res.send(resultado)
         console.log("-----------------------------------------------------------")
     },
     //create:function(req:Request,res:Response){
