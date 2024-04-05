@@ -10,7 +10,7 @@ export type Detalle={
     resolve: boolean
 }
 export type Tnota={
-    id:string
+    idNota:number
     detalles: Detalle
     fecha:FechaNota
     delete:boolean

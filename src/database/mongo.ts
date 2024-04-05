@@ -1,4 +1,4 @@
-import Mongoose,{ Schema,model } from "mongoose";
+import Mongoose,{ Schema,model,InferSchemaType  } from "mongoose";
 import {Tnota} from "../types/Tnote";
 
 const connectionString="mongodb+srv://shaggy:1234@prueba.ugikfwh.mongodb.net/notas?retryWrites=true&w=majority&appName=Pruebaa"
@@ -23,7 +23,7 @@ export function desconectar(){
 
 
 const notaSchema=new Schema({
-    _id:{type:Number,required:true,unique:true},
+    idNota:{type:Number,required:true,unique:true},
     detalles:{type:Object, required:true},
     fecha:{ type:Object, required:true},
     delete:{type: Boolean, default:false}

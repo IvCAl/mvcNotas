@@ -1,28 +1,35 @@
 import { FechaNota,Detalle,Tnota } from "../types/Tnote"
 import notaModel, { desconectar } from "../database/mongo";
+import { model } from "mongoose";
 
 const notas:Tnota[]=[]
 
 const notaVacia:Tnota={
-    id:"",
+    idNota:0,
     detalles:createDetalle("",""),
     fecha:createDate(),
     delete:false
 }
-
-export function createNotaDB(id:string,nombre:string,descripcion:string){
-    id=parseString(id)
-    id =id.replace(/\s/g, "");
-    if (id!=""){
+export async function getByIdDB(idNota:number):Promise<Tnota[]> {
+    return notaModel.find({idNota}).then()
+}
+export async function updateDB(idNota:number,nombre?:string,descripcion?:string,resolve?:boolean):Promise<Tnota[]> {
+    notaModel.findOneAndUpdate({idNota},{delete:true})
+    return notaModel.find({idNota}).then()
+}
+export async function getAllNotas():Promise<Tnota[]> {
+    return notaModel.find().then()
+ }
+export function createNotaDB(id:number,nombre:string,descripcion:string){
+    if (id!=null){
         let nuevaNota=new notaModel({
-            _id:id,
+            idNota:id,
             detalles:createDetalle(nombre, descripcion),
             fecha:createDate(),
             delete:false
         })
-        
         return nuevaNota.save()
-        .then(()=>console.log(`Se ha creado la nota con el ID ${nuevaNota._id}`))
+        .then(()=>console.log(`Se ha creado la nota con el ID ${nuevaNota.id}`))
         .catch((error)=> console.log('Error al guardar en BD', error));
     }
     else{
@@ -33,17 +40,14 @@ export function createNotaDB(id:string,nombre:string,descripcion:string){
 
 
 //CREAR NOTA
-export function createNota(idd:string,nombre:string,descripcion:string){
-    if (!idd || typeof idd != 'string' )
+export function createNota(idNota:number,nombre:string,descripcion:string){
+    if (!idNota || typeof idNota != 'number' )
         throw ('No se ha proporcionado el ID de la nota o este no es una cadena de texto');
     else{
-        let id=parseString(idd)
-        id =id.replace(/\s/g, "");
-        if (id!=""){
-            if (!isIdInArray(id)){
+            if (!isIdInArray(idNota)){
                 let fecha=createDate()
                 let detalles=createDetalle(nombre,descripcion)
-                let nuevaNota:Tnota={id:id,detalles:detalles,fecha:fecha,delete:false}
+                let nuevaNota:Tnota={idNota:idNota,detalles:detalles,fecha:fecha,delete:false}
                 console.log("Nota Creada")
                 
                 notas.push(nuevaNota)
@@ -52,17 +56,13 @@ export function createNota(idd:string,nombre:string,descripcion:string){
             }
             else
             throw ("ID YA EN USO")
-        }
-        else
-            throw ('No se admite ID vacia')
     }
         
 }
 
 //UPDATE NOTA
-export function updateNota(id:string,nombre?:string,descripcion?:string,resolve?:boolean){
+export function updateNota(id:number,nombre?:string,descripcion?:string,resolve?:boolean){
     try {
-        id=parseString(id)
         let flag=false
         for (let nota in notas){
             if  (haveThisId(notas[nota],id)){
@@ -91,9 +91,8 @@ export function updateNota(id:string,nombre?:string,descripcion?:string,resolve?
 }
 //ELIMINAR NOTA / CAMBIAR DELETE
 
-export function deleteNota(id: string){
+export function deleteNota(id: number){
     try {
-        id=parseString(id)
         let flag=false
         for (let nota in notas){
             if  (haveThisId(notas[nota],id)){
@@ -112,9 +111,8 @@ export function deleteNota(id: string){
 }
 
 //GET BY ID
-export function getById(id:string): Tnota{
+export function getById(id:number): Tnota{
     try {
-        id=parseString(id)
         let b=false
         for (let nota in notas){
             if  (haveThisId(notas[nota],id)){
@@ -181,13 +179,13 @@ export function createDetalle(nombre:string,descripcion:string):Detalle {
 function updateFecha(nota: Tnota) {
     nota.fecha.fechaUpdate=new Date(Date.now())
 } 
-function haveThisId(nota:Tnota, id: string): boolean {
-    if (nota.id == id)
+function haveThisId(nota:Tnota, id: number): boolean {
+    if (nota.idNota == id)
     return true
 else
     return false
 }
-function isIdInArray(id:string):boolean{
+function isIdInArray(id:number):boolean{
     try {
         for (let i in notas){
             if (haveThisId(notas[i],id)){
